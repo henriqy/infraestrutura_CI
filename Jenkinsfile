@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        registry = "henriqy/docker-repo"
+        registry = "henriqy/infraestrutura_ci"
         registryCredential = 'docker-hub-credentials'
         dockerImage = ''
     }
@@ -10,14 +10,14 @@ pipeline {
     stages {
         stage('Clonar Repositório') {
             steps {
-                git 'https://github.com/henriqy/infraestrutura_CI.git'
+                git credentialsId: 'github-credentials', url: 'https://github.com/henriqy/infraestrutura_CI.git', branch: 'main'
             }
         }
 
         stage('Construir Imagem Docker') {
             steps {
                 script {
-                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                    dockerImage = docker.build("${registry}:${env.BUILD_NUMBER}")
                 }
             }
         }
@@ -44,7 +44,7 @@ pipeline {
 
         stage('Limpar') {
             steps {
-                sh "docker rmi $registry:$BUILD_NUMBER"
+                sh "docker rmi ${registry}:${env.BUILD_NUMBER}"
             }
         }
     }
