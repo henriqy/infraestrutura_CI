@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        registry = "seu-usuario/docker-repo"
+        registry = "henriqy/docker-repo"
         registryCredential = 'docker-hub-credentials'
         dockerImage = ''
     }
@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Clonar Repositório') {
             steps {
-                git 'https://github.com/seu-usuario/seu-repositorio.git'
+                git 'https://github.com/henriqy/infraestrutura_CI.git'
             }
         }
 
